@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  namenode:
+    build: .
+    container_name: namenode
+    hostname: namenode
+    environment:
+      - NODE_TYPE=namenode
+    ports:
+      - "9870:9870"
+      - "9000:9000"
+    volumes:
+      - ./config:/usr/local/hadoop/etc/hadoop
+      - namenode_data:/usr/local/hadoop/hadoop_data
+
+  resourcemanager:
+    build: .
+    container_name: resourcemanager
+    hostname: resourcemanager
+    environment:
+      - NODE_TYPE=resourcemanager
+    ports:
+      - "8088:8088"
+    volumes:
+      - ./config:/usr/local/hadoop/etc/hadoop
+
+  datanode1:
+    build: .
+    container_name: datanode1
+    hostname: datanode1
+    environment:
+      - NODE_TYPE=datanode
+    ports:
+      - "9864:9864"
+    volumes:
+      - ./config:/usr/local/hadoop/etc/hadoop
+      - datanode1_data:/usr/local/hadoop/hadoop_data
+
+  datanode2:
+    build: .
+    container_name: datanode2
+    hostname: datanode2
+    environment:
+      - NODE_TYPE=datanode
+    ports:
+      - "9865:9864"
+    volumes:
+      - ./config:/usr/local/hadoop/etc/hadoop
+      - datanode2_data:/usr/local/hadoop/hadoop_data
+
+volumes:
+  namenode_data:
+  datanode1_data:
+  datanode2_data:
