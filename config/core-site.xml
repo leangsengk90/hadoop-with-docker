@@ -3,7 +3,6 @@
         <name>fs.defaultFS</name>
         <value>hdfs://namenode:9000</value>
     </property>
-
     <property>
         <name>hadoop.http.filter.initializers</name>
         <value>org.apache.hadoop.security.HttpCrossOriginFilterInitializer</value>
@@ -13,3 +12,4 @@
         <value>true</value>
     </property>
 </configuration>
+

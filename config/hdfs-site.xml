@@ -11,12 +11,10 @@
         <name>dfs.datanode.data.dir</name>
         <value>file:///usr/local/hadoop/hadoop_data/hdfs/datanode</value>
     </property>
-
     <property>
         <name>dfs.datanode.use.datanode.hostname</name>
         <value>false</value>
     </property>
-    
     <property>
     	<name>dfs.client.use.datanode.hostname</name>
     	<value>false</value>
