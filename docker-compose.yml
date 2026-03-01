@@ -24,7 +24,7 @@ services:
       - "8088:8088"
     volumes:
       - ./config:/usr/local/hadoop/etc/hadoop
-
+      - resourcemanager_data:/usr/local/hadoop/hadoop_data      
   datanode1:
     build: .
     container_name: datanode1
@@ -51,5 +51,6 @@ services:
 
 volumes:
   namenode_data:
+  resourcemanager_data:
   datanode1_data:
   datanode2_data:
