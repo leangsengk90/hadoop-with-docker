@@ -1,7 +1,7 @@
 FROM ubuntu:22.04
 
 RUN apt-get update && apt-get install -y \
-    openjdk-8-jdk openssh-server openssh-client curl \
+    openjdk-8-jdk openssh-server openssh-client curl sudo \
     && rm -rf /var/lib/apt/lists/*
 
 # Universal Java Link
@@ -16,8 +16,8 @@ RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && \
 
 # Hadoop Install
 ENV HADOOP_HOME=/usr/local/hadoop
-RUN curl -L https://archive.apache.org/dist/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz | tar -xz -C /usr/local/ && \
-    mv /usr/local/hadoop-3.3.6 $HADOOP_HOME
+RUN curl -L https://archive.apache.org/dist/hadoop/common/hadoop-3.4.0/hadoop-3.4.0.tar.gz | tar -xz -C /usr/local/ && \
+    mv /usr/local/hadoop-3.4.0 $HADOOP_HOME
 
 # Define Hadoop Users (The fix for your error)
 ENV HDFS_NAMENODE_USER=root
