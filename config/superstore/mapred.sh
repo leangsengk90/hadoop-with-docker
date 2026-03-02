@@ -1,6 +1,6 @@
 mapred streaming \
-  --input /data/superstore/superstore_no_header.csv \
-  --output /data/superstore/superstore_output \
+  --input /data/superstore/input/Sample-Superstore.csv \
+  --output /data/superstore/output \
   --mapper "python3 mapper.py" \
   --reducer "python3 reducer.py" \
   --file mapper.py \

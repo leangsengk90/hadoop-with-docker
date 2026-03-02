@@ -1,3 +1,3 @@
 #!/bin/bash
-hadoop fs -mkdir -p /data/superstore/
-hadoop fs -put superstore_no_header.csv /data/superstore/
+hadoop fs -mkdir -p /data/superstore/input/
+hadoop fs -put Sample-Superstore.csv /data/superstore/input/
