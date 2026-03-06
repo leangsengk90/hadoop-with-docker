@@ -1,40 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <configuration>
+    <!-- YARN ResourceManager and NodeManager settings. -->
     <property>
+        <!-- ResourceManager host. -->
         <name>yarn.resourcemanager.hostname</name>
         <value>resourcemanager</value>
     </property>
     <property>
+        <!-- Enable MapReduce shuffle service. -->
         <name>yarn.nodemanager.aux-services</name>
         <value>mapreduce_shuffle</value>
     </property>
     <property>
+        <!-- Scheduler class used by the ResourceManager. -->
         <name>yarn.resourcemanager.scheduler.class</name>
         <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler</value>
     </property>
     <property>
+        <!-- Total memory per NodeManager. -->
         <name>yarn.nodemanager.resource.memory-mb</name>
         <value>2048</value>
     </property>
     <property>
+        <!-- Max container allocation. -->
         <name>yarn.scheduler.maximum-allocation-mb</name>
         <value>2048</value>
     </property>
     <property>
+        <!-- Disable virtual memory checks. -->
         <name>yarn.nodemanager.vmem-check-enabled</name>
         <value>false</value>
     </property>
     <property>
+        <!-- Disable physical memory checks. -->
         <name>yarn.nodemanager.pmem-check-enabled</name>
         <value>false</value>
     </property>
     <property>
+        <!-- Allowed env vars for containers. -->
         <name>yarn.nodemanager.env-whitelist</name>
         <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME</value>
     </property>
 
     <property>
+        <!-- Web UI bind address. -->
         <name>yarn.resourcemanager.webapp.address</name>
         <value>0.0.0.0:8088</value>
     </property>

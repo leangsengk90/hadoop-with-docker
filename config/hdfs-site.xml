@@ -1,29 +1,37 @@
 <configuration>
+    <!-- HDFS storage and access settings. -->
     <property>
+        <!-- Replication factor for each block. -->
         <name>dfs.replication</name>
         <value>2</value>
     </property>
     <property>
+        <!-- NameNode data directory. -->
         <name>dfs.namenode.name.dir</name>
         <value>file:///usr/local/hadoop/hadoop_data/hdfs/namenode</value>
     </property>
     <property>
+        <!-- DataNode data directory. -->
         <name>dfs.datanode.data.dir</name>
         <value>file:///usr/local/hadoop/hadoop_data/hdfs/datanode</value>
     </property>
     <property>
+        <!-- DataNode advertises IP, not hostname. -->
         <name>dfs.datanode.use.datanode.hostname</name>
         <value>false</value>
     </property>
     <property>
-    	<name>dfs.client.use.datanode.hostname</name>
-    	<value>false</value>
+        <!-- Client connects by IP, not hostname. -->
+        <name>dfs.client.use.datanode.hostname</name>
+        <value>false</value>
     </property>    
     <property>
+        <!-- Enable WebHDFS REST API. -->
         <name>dfs.webhdfs.enabled</name>
         <value>true</value>
     </property>
     <property>
+        <!-- Disable HDFS permissions checks. -->
         <name>dfs.permissions.enabled</name>
         <value>false</value>
     </property>

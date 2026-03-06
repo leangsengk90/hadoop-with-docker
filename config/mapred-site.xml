@@ -1,29 +1,37 @@
 <configuration>
+    <!-- MapReduce on YARN settings. -->
     <property>
+        <!-- Run MapReduce using YARN. -->
         <name>mapreduce.framework.name</name>
         <value>yarn</value>
     </property>
     <property>
+        <!-- Submit jobs to this queue. -->
         <name>mapreduce.job.queuename</name>
         <value>root.default</value>
     </property>
     <property>
+        <!-- AM environment. -->
         <name>yarn.app.mapreduce.am.env</name>
         <value>HADOOP_MAPRED_HOME=/usr/local/hadoop</value>
     </property>
     <property>
+        <!-- Map task environment. -->
         <name>mapreduce.map.env</name>
         <value>HADOOP_MAPRED_HOME=/usr/local/hadoop</value>
     </property>
     <property>
+        <!-- Reduce task environment. -->
         <name>mapreduce.reduce.env</name>
         <value>HADOOP_MAPRED_HOME=/usr/local/hadoop</value>
     </property>
     <property>
+        <!-- MapReduce classpath. -->
         <name>mapreduce.application.classpath</name>
         <value>/usr/local/hadoop/share/hadoop/mapreduce/*:/usr/local/hadoop/share/hadoop/mapreduce/lib/*</value>
     </property>
     <property>
+        <!-- AM classpath. -->
         <name>yarn.app.mapreduce.am.classpath</name>
         <value>/usr/local/hadoop/share/hadoop/mapreduce/*:/usr/local/hadoop/share/hadoop/mapreduce/lib/*</value>
     </property>

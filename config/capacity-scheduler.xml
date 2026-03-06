@@ -1,17 +1,22 @@
 <configuration>
+  <!-- Single "default" queue using all cluster capacity. -->
   <property>
+    <!-- Root queue list. -->
     <name>yarn.scheduler.capacity.root.queues</name>
     <value>default</value>
   </property>
   <property>
+    <!-- Guaranteed capacity for "default". -->
     <name>yarn.scheduler.capacity.root.default.capacity</name>
     <value>100</value>
   </property>
   <property>
+    <!-- Max capacity for "default". -->
     <name>yarn.scheduler.capacity.root.default.maximum-capacity</name>
     <value>100</value>
   </property>
   <property>
+    <!-- Queue is enabled. -->
     <name>yarn.scheduler.capacity.root.default.state</name>
     <value>RUNNING</value>
   </property>
