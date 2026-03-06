@@ -36,3 +36,4 @@
         <value>/usr/local/hadoop/share/hadoop/mapreduce/*:/usr/local/hadoop/share/hadoop/mapreduce/lib/*</value>
     </property>
 </configuration>
+

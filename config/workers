@@ -1,3 +1,4 @@
 # Worker hostnames used by HDFS DataNodes.
 datanode1
 datanode2
+
