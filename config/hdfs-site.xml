@@ -1,37 +1,37 @@
 <configuration>
-    <!-- HDFS storage and access settings. -->
+    <!-- HDFS storage locations and access behavior. -->
     <property>
-        <!-- Replication factor for each block. -->
+        <!-- Replication factor for each HDFS block. -->
         <name>dfs.replication</name>
         <value>2</value>
     </property>
     <property>
-        <!-- NameNode data directory. -->
+        <!-- NameNode metadata directory on local disk. -->
         <name>dfs.namenode.name.dir</name>
         <value>file:///usr/local/hadoop/hadoop_data/hdfs/namenode</value>
     </property>
     <property>
-        <!-- DataNode data directory. -->
+        <!-- DataNode data directory on local disk. -->
         <name>dfs.datanode.data.dir</name>
         <value>file:///usr/local/hadoop/hadoop_data/hdfs/datanode</value>
     </property>
     <property>
-        <!-- DataNode advertises IP, not hostname. -->
+        <!-- DataNode advertises IP instead of hostname for container networking. -->
         <name>dfs.datanode.use.datanode.hostname</name>
         <value>false</value>
     </property>
     <property>
-        <!-- Client connects by IP, not hostname. -->
+        <!-- Client connects to DataNode by IP, not hostname. -->
         <name>dfs.client.use.datanode.hostname</name>
         <value>false</value>
     </property>    
     <property>
-        <!-- Enable WebHDFS REST API. -->
+        <!-- Enable WebHDFS REST API for HTTP access. -->
         <name>dfs.webhdfs.enabled</name>
         <value>true</value>
     </property>
     <property>
-        <!-- Disable HDFS permissions checks. -->
+        <!-- Disable HDFS permissions checks for a simple demo setup. -->
         <name>dfs.permissions.enabled</name>
         <value>false</value>
     </property>

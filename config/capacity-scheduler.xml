@@ -1,22 +1,22 @@
 <configuration>
-  <!-- Single "default" queue using all cluster capacity. -->
+  <!-- Capacity Scheduler with one queue; all apps run in "default". -->
   <property>
-    <!-- Root queue list. -->
+    <!-- Root queue list; only "default" is defined. -->
     <name>yarn.scheduler.capacity.root.queues</name>
     <value>default</value>
   </property>
   <property>
-    <!-- Guaranteed capacity for "default". -->
+    <!-- Guaranteed capacity for "default" as a percent of the cluster. -->
     <name>yarn.scheduler.capacity.root.default.capacity</name>
     <value>100</value>
   </property>
   <property>
-    <!-- Max capacity for "default". -->
+    <!-- Max capacity for "default"; keeps it from borrowing beyond 100%. -->
     <name>yarn.scheduler.capacity.root.default.maximum-capacity</name>
     <value>100</value>
   </property>
   <property>
-    <!-- Queue is enabled. -->
+    <!-- Queue state; RUNNING allows job submission. -->
     <name>yarn.scheduler.capacity.root.default.state</name>
     <value>RUNNING</value>
   </property>

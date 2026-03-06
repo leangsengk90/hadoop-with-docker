@@ -1,4 +1,4 @@
- # Java runtime for Hadoop processes.
+ # Java runtime for Hadoop processes in the container.
 export JAVA_HOME=/usr/local/java
 
 # Run HDFS daemons as root inside the container.

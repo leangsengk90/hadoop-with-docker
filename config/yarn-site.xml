@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <configuration>
-    <!-- YARN ResourceManager and NodeManager settings. -->
+    <!-- YARN ResourceManager and NodeManager settings for this cluster. -->
     <property>
-        <!-- ResourceManager host. -->
+        <!-- ResourceManager hostname used by NodeManagers and clients. -->
         <name>yarn.resourcemanager.hostname</name>
         <value>resourcemanager</value>
     </property>
     <property>
-        <!-- Enable MapReduce shuffle service. -->
+        <!-- Enable MapReduce shuffle service on NodeManagers. -->
         <name>yarn.nodemanager.aux-services</name>
         <value>mapreduce_shuffle</value>
     </property>
@@ -18,33 +18,33 @@
         <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler</value>
     </property>
     <property>
-        <!-- Total memory per NodeManager. -->
+        <!-- Total memory per NodeManager available to containers. -->
         <name>yarn.nodemanager.resource.memory-mb</name>
         <value>2048</value>
     </property>
     <property>
-        <!-- Max container allocation. -->
+        <!-- Max memory a single container can request. -->
         <name>yarn.scheduler.maximum-allocation-mb</name>
         <value>2048</value>
     </property>
     <property>
-        <!-- Disable virtual memory checks. -->
+        <!-- Disable virtual memory checks to avoid container kills. -->
         <name>yarn.nodemanager.vmem-check-enabled</name>
         <value>false</value>
     </property>
     <property>
-        <!-- Disable physical memory checks. -->
+        <!-- Disable physical memory checks for a small demo cluster. -->
         <name>yarn.nodemanager.pmem-check-enabled</name>
         <value>false</value>
     </property>
     <property>
-        <!-- Allowed env vars for containers. -->
+        <!-- Allowed env vars passed into containers. -->
         <name>yarn.nodemanager.env-whitelist</name>
         <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME</value>
     </property>
 
     <property>
-        <!-- Web UI bind address. -->
+        <!-- Web UI bind address for the ResourceManager. -->
         <name>yarn.resourcemanager.webapp.address</name>
         <value>0.0.0.0:8088</value>
     </property>

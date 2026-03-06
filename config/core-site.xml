@@ -1,17 +1,17 @@
 <configuration>
-    <!-- Core settings for default FS and CORS. -->
+    <!-- Core settings for default filesystem and web access. -->
     <property>
-        <!-- Default HDFS URI. -->
+        <!-- Default HDFS URI used by clients and services. -->
         <name>fs.defaultFS</name>
         <value>hdfs://namenode:9000</value>
     </property>
     <property>
-        <!-- Enable CORS filter for WebHDFS/UI access. -->
+        <!-- Enable the CORS filter so browsers can call WebHDFS/UI APIs. -->
         <name>hadoop.http.filter.initializers</name>
         <value>org.apache.hadoop.security.HttpCrossOriginFilterInitializer</value>
     </property>
     <property>
-        <!-- Turn on CORS handling. -->
+        <!-- Turn on CORS handling once the filter is installed. -->
         <name>hadoop.http.crossorigin.enabled</name>
         <value>true</value>
     </property>
