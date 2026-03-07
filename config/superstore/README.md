@@ -9,7 +9,7 @@ cd /usr/local/hadoop/etc/hadoop/superstore
 bash input.sh
 bash mapred.sh
 bash save.sh
-python3 visualize.py
+bash visualize.sh
 ```
 
 ## Output
