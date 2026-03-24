@@ -13,6 +13,8 @@ services:
     volumes:
       - ./config:/usr/local/hadoop/etc/hadoop
       - namenode_data:/usr/local/hadoop/hadoop_data
+    networks:
+      - hadoop-network
 
   resourcemanager:
     build: .
@@ -25,6 +27,9 @@ services:
     volumes:
       - ./config:/usr/local/hadoop/etc/hadoop
       - resourcemanager_data:/usr/local/hadoop/hadoop_data      
+    networks:
+      - hadoop-network
+
   datanode1:
     build: .
     container_name: datanode1
@@ -36,6 +41,8 @@ services:
     volumes:
       - ./config:/usr/local/hadoop/etc/hadoop
       - datanode1_data:/usr/local/hadoop/hadoop_data
+    networks:
+      - hadoop-network
 
   datanode2:
     build: .
@@ -48,9 +55,115 @@ services:
     volumes:
       - ./config:/usr/local/hadoop/etc/hadoop
       - datanode2_data:/usr/local/hadoop/hadoop_data
+    networks:
+      - hadoop-network
+
+  hive-postgres:
+    image: postgres:16
+    container_name: hive-postgres
+    hostname: hive-postgres
+    environment:
+      - POSTGRES_DB=metastore
+      - POSTGRES_USER=hive
+      - POSTGRES_PASSWORD=hive
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hive -d metastore"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - hive_postgres_data:/var/lib/postgresql/data
+    networks:
+      - hadoop-network
+
+  hive-jdbc-downloader:
+    image: curlimages/curl:8.6.0
+    container_name: hive-jdbc-downloader
+    user: "0:0"
+    command: ["-fL", "-o", "/jdbc/postgresql.jar", "https://repo1.maven.org/maven2/org/postgresql/postgresql/42.7.3/postgresql-42.7.3.jar"]
+    volumes:
+      - ./config/jdbc:/jdbc
+    networks:
+      - hadoop-network
+
+  hive-metastore:
+    image: apache/hive:4.2.0
+    container_name: hive-metastore
+    hostname: hive-metastore
+    environment:
+      - SERVICE_NAME=metastore
+      - DB_DRIVER=postgres
+      - HIVE_METASTORE_URI=thrift://hive-metastore:9083
+      - SERVICE_OPTS=-Djavax.jdo.option.ConnectionURL=jdbc:postgresql://hive-postgres:5432/metastore -Djavax.jdo.option.ConnectionDriverName=org.postgresql.Driver -Djavax.jdo.option.ConnectionUserName=hive -Djavax.jdo.option.ConnectionPassword=hive -Ddatanucleus.schema.autoCreateAll=true
+      - HADOOP_CLASSPATH=/opt/hive/ext/postgresql.jar
+      - HIVE_AUX_JARS_PATH=/opt/hive/ext/postgresql.jar
+    depends_on:
+      hive-postgres:
+        condition: service_healthy
+      hive-jdbc-downloader:
+        condition: service_completed_successfully
+    volumes:
+      - ./config/jdbc:/opt/hive/ext
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        until [ -f /opt/hive/ext/postgresql.jar ]; do echo "Waiting for JDBC jar..."; sleep 2; done
+        exec /entrypoint.sh
+    networks:
+      - hadoop-network
+
+  hive-server2:
+    image: apache/hive:4.2.0
+    container_name: hive-server2
+    hostname: hive-server2
+    environment:
+      - SERVICE_NAME=hiveserver2
+      - DB_DRIVER=postgres
+      - IS_RESUME=true
+      - HIVE_METASTORE_URI=thrift://hive-metastore:9083
+      - SERVICE_OPTS=-Djavax.jdo.option.ConnectionURL=jdbc:postgresql://hive-postgres:5432/metastore -Djavax.jdo.option.ConnectionDriverName=org.postgresql.Driver -Djavax.jdo.option.ConnectionUserName=hive -Djavax.jdo.option.ConnectionPassword=hive
+      - HADOOP_CLASSPATH=/opt/hive/ext/postgresql.jar
+      - HIVE_AUX_JARS_PATH=/opt/hive/ext/postgresql.jar
+    depends_on:
+      hive-metastore:
+        condition: service_started
+    volumes:
+      - ./config/jdbc:/opt/hive/ext
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        until [ -f /opt/hive/ext/postgresql.jar ]; do echo "Waiting for JDBC jar..."; sleep 2; done
+        exec /entrypoint.sh
+    ports:
+      - "10000:10000"
+      - "10002:10002"
+    networks:
+      - hadoop-network
+
+  hue:
+    image: gethue/hue:4.11.0
+    container_name: hue
+    hostname: hue
+    depends_on:
+      - hive-server2
+    environment:
+      - HUE_CONF_DIR=/usr/share/hue/desktop/conf
+    volumes:
+      - ./config/hue.ini:/usr/share/hue/desktop/conf/hue.ini
+    ports:
+      - "8888:8888"
+    networks:
+      - hadoop-network
+
+networks:
+  hadoop-network:
+    driver: bridge
 
 volumes:
   namenode_data:
   resourcemanager_data:
   datanode1_data:
   datanode2_data:
+  hive_postgres_data:
