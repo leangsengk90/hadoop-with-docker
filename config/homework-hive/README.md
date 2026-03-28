@@ -96,7 +96,7 @@ SELECT
 FROM films f
 JOIN roles ro ON f.id = ro.film_id
 JOIN people p ON ro.person_id = p.id
-WHERE ro.role = 'actor'
+WHERE ro.role = '"actor"'
 GROUP BY f.title;
 
 SELECT 
@@ -112,7 +112,7 @@ SELECT
     COUNT(ro.film_id) as appearance_count
 FROM people p
 JOIN roles ro ON p.id = ro.person_id
-WHERE ro.role = 'actor'
+WHERE ro.role = '"actor"'
 GROUP BY p.name
 HAVING COUNT(ro.film_id) > 3;
 
@@ -121,7 +121,7 @@ SELECT
     COUNT(ro.film_id) as film_count
 FROM people p
 JOIN roles ro ON p.id = ro.person_id
-WHERE ro.role = 'actor'
+WHERE ro.role = '"actor"'
 GROUP BY p.name
 ORDER BY film_count DESC
 LIMIT 3;
