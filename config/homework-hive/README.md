@@ -82,3 +82,46 @@ SELECT * FROM films LIMIT 100;
 SELECT * FROM people LIMIT 100;
 SELECT * FROM reviews LIMIT 100;
 SELECT * FROM roles LIMIT 100;
+
+SELECT 
+    f.title, 
+    f.release_year, 
+    r.num_votes
+FROM films f
+JOIN reviews r ON f.id = r.film_id;
+
+SELECT 
+    f.title, 
+    CONCAT_WS(', ', COLLECT_SET(p.name)) AS actors
+FROM films f
+JOIN roles ro ON f.id = ro.film_id
+JOIN people p ON ro.person_id = p.id
+WHERE ro.role = 'actor'
+GROUP BY f.title;
+
+SELECT 
+    country, 
+    COUNT(*) as film_count
+FROM films
+WHERE country IS NOT NULL AND country != ''
+GROUP BY country
+HAVING COUNT(*) > 50;
+
+SELECT 
+    p.name, 
+    COUNT(ro.film_id) as appearance_count
+FROM people p
+JOIN roles ro ON p.id = ro.person_id
+WHERE ro.role = 'actor'
+GROUP BY p.name
+HAVING COUNT(ro.film_id) > 3;
+
+SELECT 
+    p.name, 
+    COUNT(ro.film_id) as film_count
+FROM people p
+JOIN roles ro ON p.id = ro.person_id
+WHERE ro.role = 'actor'
+GROUP BY p.name
+ORDER BY film_count DESC
+LIMIT 3;
