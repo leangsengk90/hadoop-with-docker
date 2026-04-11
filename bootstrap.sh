@@ -13,6 +13,18 @@ if [ "$NODE_TYPE" = "namenode" ]; then
         /usr/local/hadoop/bin/hdfs namenode -format -force
     fi
     /usr/local/hadoop/sbin/start-dfs.sh
+    
+    # Start Spark Master
+    /usr/local/spark/sbin/start-master.sh
+    
+    # Start Jupyter Notebook
+    mkdir -p /home/jovyan/notebooks
+    jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password='' --notebook-dir=/home/jovyan/notebooks &
+fi
+
+if [ "$NODE_TYPE" = "datanode" ]; then
+    # Start Spark Worker
+    /usr/local/spark/sbin/start-worker.sh spark://namenode:7077
 fi
 # ResourceManager: wait for HDFS, then start YARN.
 if [ "$NODE_TYPE" = "resourcemanager" ]; then

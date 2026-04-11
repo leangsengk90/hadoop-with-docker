@@ -10,8 +10,12 @@ services:
     ports:
       - "9870:9870"
       - "9000:9000"
+      - "8080:8080" # Spark Master UI
+      - "7077:7077" # Spark Master port
+      - "8889:8888" # Jupyter Notebook
     volumes:
       - ./config:/usr/local/hadoop/etc/hadoop
+      - ./notebooks:/home/jovyan/notebooks
       - namenode_data:/usr/local/hadoop/hadoop_data
     networks:
       - hadoop-network
@@ -38,6 +42,7 @@ services:
       - NODE_TYPE=datanode
     ports:
       - "9864:9864"
+      - "8081:8081" # Spark Worker UI
     volumes:
       - ./config:/usr/local/hadoop/etc/hadoop
       - datanode1_data:/usr/local/hadoop/hadoop_data
@@ -52,6 +57,7 @@ services:
       - NODE_TYPE=datanode
     ports:
       - "9865:9864"
+      - "8082:8081" # Spark Worker UI (alternate port)
     volumes:
       - ./config:/usr/local/hadoop/etc/hadoop
       - datanode2_data:/usr/local/hadoop/hadoop_data
