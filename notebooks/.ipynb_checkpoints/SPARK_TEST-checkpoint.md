@@ -9,7 +9,7 @@ To verify that Spark and Jupyter are correctly integrated, follow these steps:
     ```
 
 2.  **Access Jupyter Notebook:**
-    Open your browser and go to `http://localhost:8888`.
+    Open your browser and go to `http://localhost:8889`.
 
 3.  **Check Spark Master UI:**
     Open `http://localhost:8080`. You should see `namenode:7077` as the Spark Master and at least two workers connected.
