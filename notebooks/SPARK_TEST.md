@@ -30,7 +30,9 @@ To verify that Spark and Jupyter are correctly integrated, follow these steps:
         .getOrCreate()
 
     # Test Spark
-    df = spark.createDataset([("Alice", 1), ("Bob", 2)], ["name", "id"]).toDF()
+    data = [("Alice", 1), ("Bob", 2)]
+    columns = ["name", "id"]
+    df = spark.createDataFrame(data, columns)
     df.show()
 
     # Stop Spark
