@@ -29,3 +29,9 @@ docker compose down
 ```sh
 docker compose down -v
 ```
+
+```sh
+docker exec namenode pip install nltk wordcloud
+docker exec datanode1 pip install nltk wordcloud
+docker exec datanode2 pip install nltk wordcloud
+```
