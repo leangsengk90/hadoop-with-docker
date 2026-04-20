@@ -1,0 +1,84 @@
+-- 1. CUSTOMERS TABLE
+CREATE TABLE IF NOT EXISTS customers (
+    customer_id STRING,
+    customer_name STRING,
+    segment STRING
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
+STORED AS TEXTFILE
+TBLPROPERTIES ("skip.header.line.count"="1");
+
+LOAD DATA INPATH 'hdfs://namenode:9000/data/customers.csv' INTO TABLE customers;
+
+
+-- 2. PRODUCTS TABLE
+CREATE TABLE IF NOT EXISTS products (
+    product_id STRING,
+    product_name STRING,
+    category STRING,
+    sub_category STRING
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
+STORED AS TEXTFILE
+TBLPROPERTIES ("skip.header.line.count"="1");
+
+LOAD DATA INPATH 'hdfs://namenode:9000/data/products.csv' INTO TABLE products;
+
+
+-- 3. LOCATIONS TABLE
+CREATE TABLE IF NOT EXISTS locations (
+    postal_code INT,
+    city STRING,
+    state STRING,
+    country STRING,
+    region STRING
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
+STORED AS TEXTFILE
+TBLPROPERTIES ("skip.header.line.count"="1");
+
+LOAD DATA INPATH 'hdfs://namenode:9000/data/locations.csv' INTO TABLE locations;
+
+
+-- 4. ORDERS TABLE
+CREATE TABLE IF NOT EXISTS orders (
+    order_id STRING,
+    order_date STRING,
+    ship_date STRING,
+    ship_mode STRING,
+    customer_id STRING,
+    postal_code INT
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
+STORED AS TEXTFILE
+TBLPROPERTIES ("skip.header.line.count"="1");
+
+LOAD DATA INPATH 'hdfs://namenode:9000/data/orders.csv' INTO TABLE orders;
+
+
+-- 5. ORDER_ITEMS TABLE
+CREATE TABLE IF NOT EXISTS order_items (
+    row_id INT,
+    order_id STRING,
+    product_id STRING,
+    sales DOUBLE,
+    quantity INT,
+    discount DOUBLE,
+    profit DOUBLE
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
+STORED AS TEXTFILE
+TBLPROPERTIES ("skip.header.line.count"="1");
+
+LOAD DATA INPATH 'hdfs://namenode:9000/data/order_items.csv' INTO TABLE order_items;
+
+-- ====================================================
+-- VERIFICATION: Check if data loaded successfully
+-- ====================================================
+SELECT 'customers' as tbl, count(*) as row_count FROM customers
+UNION ALL
+SELECT 'products' as tbl, count(*) as row_count FROM products
+UNION ALL
+SELECT 'orders' as tbl, count(*) as row_count FROM orders
+UNION ALL
+SELECT 'order_items' as tbl, count(*) as row_count FROM order_items;
