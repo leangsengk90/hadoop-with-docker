@@ -25,7 +25,7 @@ spark = SparkSession.getActiveSession()
 if spark is None:
     spark = (SparkSession.builder
         .appName("__NAME__")
-        .master("local[*]")
+        .master("spark://namenode:7077")
         .config("spark.sql.shuffle.partitions", "4")
         .getOrCreate())
 
@@ -621,6 +621,8 @@ for nb in NOTEBOOKS:
         code_cell(nb["query"].strip()),
         md_cell("## Visualisation"),
         code_cell(nb["viz"].strip()),
+        md_cell("## Stop Spark"),
+        code_cell("spark.stop()\nprint(\"Spark session stopped.\")"),
     ]
     path = os.path.join(OUT, nb["filename"])
     write_nb(path, cells)
