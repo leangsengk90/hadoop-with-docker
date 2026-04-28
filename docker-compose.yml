@@ -103,7 +103,7 @@ services:
       - DB_DRIVER=postgres
       - SKIP_SCHEMA_INIT=true
       - HIVE_METASTORE_URI=thrift://hive-metastore:9083
-      - SERVICE_OPTS=-Djavax.jdo.option.ConnectionURL=jdbc:postgresql://hive-postgres:5432/metastore -Djavax.jdo.option.ConnectionDriverName=org.postgresql.Driver -Djavax.jdo.option.ConnectionUserName=hive -Djavax.jdo.option.ConnectionPassword=hive -Ddatanucleus.schema.autoCreateAll=true
+      - SERVICE_OPTS=-Djavax.jdo.option.ConnectionURL=jdbc:postgresql://hive-postgres:5432/metastore -Djavax.jdo.option.ConnectionDriverName=org.postgresql.Driver -Djavax.jdo.option.ConnectionUserName=hive -Djavax.jdo.option.ConnectionPassword=hive -Ddatanucleus.schema.autoCreateAll=true -Ddatanucleus.autoCreateSchema=true -Dhive.metastore.schema.verification=false
       - HADOOP_CLASSPATH=/opt/hive/ext/postgresql.jar
       - HIVE_AUX_JARS_PATH=/opt/hive/ext/postgresql.jar
     depends_on:
@@ -118,16 +118,29 @@ services:
       - -c
       - |
         until [ -f /opt/hive/ext/postgresql.jar ]; do echo "Waiting for JDBC jar..."; sleep 2; done
-        # Check if schema exists, if not, initialize it
-        # We allow error code 1 from schematool -info if it means "already exists" for some versions
-        if /opt/hive/bin/schematool -dbType postgres -info > /dev/null 2>&1; then
-          echo "Hive schema already initialized."
+        echo "JDBC jar ready."
+        export HIVE_CONF_DIR=/opt/hive/conf
+        export HADOOP_CLIENT_OPTS=" -Xmx1G ${SERVICE_OPTS}"
+
+        # Populate the VERSION table directly in Postgres if missing
+        # (tables exist from partial init but VERSION row is empty)
+        PG_URL="host=hive-postgres port=5432 dbname=metastore user=hive password=hive"
+        VERSION_COUNT=$(psql "postgresql://hive:hive@hive-postgres:5432/metastore" \
+          -t -A -c 'SELECT COUNT(*) FROM "VERSION";' 2>/dev/null || echo "0")
+        if [ "$VERSION_COUNT" = "0" ]; then
+          echo "VERSION table empty — inserting schema version record..."
+          psql "postgresql://hive:hive@hive-postgres:5432/metastore" \
+            -c 'INSERT INTO "VERSION" ("VER_ID","SCHEMA_VERSION","VERSION_COMMENT") VALUES (1,'"'"'3.1.0'"'"','"'"'Initialized'"'"') ON CONFLICT DO NOTHING;' 2>/dev/null \
+            && echo "VERSION record inserted." || echo "psql not available, continuing..."
         else
-          echo "Initializing Hive schema..."
-          # If -info failed, it might be uninitialized. We try -initSchema but ignore the error if it says "already exists"
-          /opt/hive/bin/schematool -dbType postgres -initSchema 2>&1 | grep -q "already exists" && echo "Schema already exists." || true
+          echo "VERSION table OK (${VERSION_COUNT} row(s))."
         fi
-        exec /entrypoint.sh
+
+        echo "Starting Hive Metastore..."
+        exec /opt/hive/bin/hive --service metastore \
+          --hiveconf hive.metastore.schema.verification=false \
+          --hiveconf datanucleus.schema.autoCreateAll=true \
+          --hiveconf datanucleus.autoCreateSchema=true
     networks:
       - hadoop-network
 

@@ -60,6 +60,9 @@ import pandas as pd
 import numpy as np
 
 plt.rcParams.update({"figure.dpi": 120, "axes.spines.top": False, "axes.spines.right": False})
+
+CHARTS_DIR = "/usr/local/hadoop/etc/hadoop/assessment-2/charts"
+os.makedirs(CHARTS_DIR, exist_ok=True)
 print("Ready.")
 '''
 
@@ -104,7 +107,9 @@ lines1, lab1 = ax1.get_legend_handles_labels()
 lines2, lab2 = ax2.get_legend_handles_labels()
 ax1.legend(lines1+lines2, lab1+lab2, loc="upper left")
 ax1.set_title("Monthly Sales & Profit Trend", fontsize=15, fontweight="bold")
-plt.tight_layout(); plt.show()
+plt.tight_layout(); plt.savefig(f"{CHARTS_DIR}/01_monthly_sales_trend.png", bbox_inches="tight")
+plt.show()
+print(f"Chart saved to {CHARTS_DIR}/01_monthly_sales_trend.png")
 """),
 
 # ── 02 ────────────────────────────────────────────────────────────────────────
@@ -144,7 +149,9 @@ axes[1].pie(df["total_orders"], labels=df["region"], autopct="%1.1f%%",
 axes[1].set_title("Order Count Share by Region", fontweight="bold")
 
 plt.suptitle("Regional Sales Performance", fontsize=15, fontweight="bold")
-plt.tight_layout(); plt.show()
+plt.tight_layout(); plt.savefig(f"{CHARTS_DIR}/02_regional_sales.png", bbox_inches="tight")
+plt.show()
+print(f"Chart saved to {CHARTS_DIR}/02_regional_sales.png")
 """),
 
 # ── 03 ────────────────────────────────────────────────────────────────────────
@@ -186,7 +193,9 @@ axes[1].set_title("Top 15 Sub-Categories by Sales", fontweight="bold"); axes[1].
 axes[1].xaxis.set_major_formatter(mticker.FuncFormatter(lambda v,_: f"${v:,.0f}"))
 
 plt.suptitle("Product Category Revenue Analysis", fontsize=15, fontweight="bold")
-plt.tight_layout(); plt.show()
+plt.tight_layout(); plt.savefig(f"{CHARTS_DIR}/03_product_category.png", bbox_inches="tight")
+plt.show()
+print(f"Chart saved to {CHARTS_DIR}/03_product_category.png")
 """),
 
 # ── 04 ────────────────────────────────────────────────────────────────────────
@@ -231,7 +240,9 @@ axes[2].set_xticks(list(x)); axes[2].set_xticklabels(df["segment"])
 axes[2].set_title("Customers & Orders by Segment", fontweight="bold"); axes[2].legend()
 
 plt.suptitle("Customer Segment Analysis", fontsize=15, fontweight="bold")
-plt.tight_layout(); plt.show()
+plt.tight_layout(); plt.savefig(f"{CHARTS_DIR}/04_customer_segment.png", bbox_inches="tight")
+plt.show()
+print(f"Chart saved to {CHARTS_DIR}/04_customer_segment.png")
 """),
 
 # ── 05 ────────────────────────────────────────────────────────────────────────
@@ -278,7 +289,9 @@ axes[1].xaxis.set_major_formatter(mticker.FuncFormatter(lambda v,_: f"${v:,.0f}"
 axes[1].legend(handles=[Patch(facecolor=v,label=k) for k,v in cat_c.items()], fontsize=8)
 
 plt.suptitle("Top Products Performance", fontsize=15, fontweight="bold")
-plt.tight_layout(); plt.show()
+plt.tight_layout(); plt.savefig(f"{CHARTS_DIR}/05_top_products.png", bbox_inches="tight")
+plt.show()
+print(f"Chart saved to {CHARTS_DIR}/05_top_products.png")
 """),
 
 # ── 06 ────────────────────────────────────────────────────────────────────────
@@ -349,7 +362,9 @@ for i in range(len(pivot.index)):
                          color="white" if abs(val) > 30 else "black")
 plt.colorbar(im, ax=axes[1], label="Margin %")
 plt.suptitle("Discount Impact on Profit Margins", fontsize=15, fontweight="bold")
-plt.tight_layout(); plt.show()
+plt.tight_layout(); plt.savefig(f"{CHARTS_DIR}/06_discount_impact.png", bbox_inches="tight")
+plt.show()
+print(f"Chart saved to {CHARTS_DIR}/06_discount_impact.png")
 """),
 
 # ── 07 ────────────────────────────────────────────────────────────────────────
@@ -396,7 +411,9 @@ axes[2].set_title("Avg Days to Ship", fontweight="bold"); axes[2].set_ylabel("Da
 axes[2].tick_params(axis="x", rotation=15)
 
 plt.suptitle("Shipping Mode Analysis", fontsize=15, fontweight="bold")
-plt.tight_layout(); plt.show()
+plt.tight_layout(); plt.savefig(f"{CHARTS_DIR}/07_shipping_mode.png", bbox_inches="tight")
+plt.show()
+print(f"Chart saved to {CHARTS_DIR}/07_shipping_mode.png")
 """),
 
 # ── 08 ────────────────────────────────────────────────────────────────────────
@@ -447,7 +464,9 @@ axes[1].legend(handles=[Patch(facecolor=list(plt.cm.Set1.colors)[:3][i],label=k)
                          for k,i in seg_num.items()], fontsize=9)
 
 plt.suptitle("Top 20 Customers Revenue Analysis", fontsize=15, fontweight="bold")
-plt.tight_layout(); plt.show()
+plt.tight_layout(); plt.savefig(f"{CHARTS_DIR}/08_top_customers.png", bbox_inches="tight")
+plt.show()
+print(f"Chart saved to {CHARTS_DIR}/08_top_customers.png")
 """),
 
 # ── 09 ────────────────────────────────────────────────────────────────────────
@@ -498,7 +517,9 @@ axes[1].yaxis.set_major_formatter(mticker.FuncFormatter(lambda v,_: f"${v:,.0f}"
 axes[1].tick_params(axis="x", rotation=30); axes[1].legend(handles=legend_els, fontsize=8)
 
 plt.suptitle("State-Level Sales Performance", fontsize=15, fontweight="bold")
-plt.tight_layout(); plt.show()
+plt.tight_layout(); plt.savefig(f"{CHARTS_DIR}/09_state_sales.png", bbox_inches="tight")
+plt.show()
+print(f"Chart saved to {CHARTS_DIR}/09_state_sales.png")
 """),
 
 # ── 10 ────────────────────────────────────────────────────────────────────────
@@ -577,7 +598,9 @@ axes[1,1].set_xticks(range(0,len(mon_m),step))
 axes[1,1].set_xticklabels(mon_m["month"].iloc[::step], rotation=45, ha="right")
 
 plt.suptitle("Profitability Dashboard", fontsize=16, fontweight="bold")
-plt.tight_layout(); plt.show()
+plt.tight_layout(); plt.savefig(f"{CHARTS_DIR}/10_profitability_dashboard.png", bbox_inches="tight")
+plt.show()
+print(f"Chart saved to {CHARTS_DIR}/10_profitability_dashboard.png")
 """),
 
 ]  # end NOTEBOOKS list
