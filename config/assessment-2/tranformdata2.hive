@@ -1,0 +1,91 @@
+-- ============================================================
+-- EXTERNAL TABLES pointing to HDFS
+-- Data files stay on HDFS so Spark workers can also read them.
+-- DROP + recreate if tables already exist as managed tables.
+-- ============================================================
+
+DROP TABLE IF EXISTS customers;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS locations;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS order_items;
+
+-- 1. CUSTOMERS TABLE
+CREATE EXTERNAL TABLE customers (
+    customer_id   STRING,
+    customer_name STRING,
+    segment       STRING
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION 'hdfs://namenode:9000/data/hive/customers'
+TBLPROPERTIES ("skip.header.line.count"="1");
+
+-- 2. PRODUCTS TABLE
+CREATE EXTERNAL TABLE products (
+    product_id   STRING,
+    product_name STRING,
+    category     STRING,
+    sub_category STRING
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION 'hdfs://namenode:9000/data/hive/products'
+TBLPROPERTIES ("skip.header.line.count"="1");
+
+-- 3. LOCATIONS TABLE
+CREATE EXTERNAL TABLE locations (
+    postal_code INT,
+    city        STRING,
+    state       STRING,
+    country     STRING,
+    region      STRING
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION 'hdfs://namenode:9000/data/hive/locations'
+TBLPROPERTIES ("skip.header.line.count"="1");
+
+-- 4. ORDERS TABLE
+CREATE EXTERNAL TABLE orders (
+    order_id    STRING,
+    order_date  STRING,
+    ship_date   STRING,
+    ship_mode   STRING,
+    customer_id STRING,
+    postal_code INT
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION 'hdfs://namenode:9000/data/hive/orders'
+TBLPROPERTIES ("skip.header.line.count"="1");
+
+-- 5. ORDER_ITEMS TABLE
+CREATE EXTERNAL TABLE order_items (
+    row_id     INT,
+    order_id   STRING,
+    product_id STRING,
+    sales      DOUBLE,
+    quantity   INT,
+    discount   DOUBLE,
+    profit     DOUBLE
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION 'hdfs://namenode:9000/data/hive/order_items'
+TBLPROPERTIES ("skip.header.line.count"="1");
+
+-- ====================================================
+-- VERIFICATION: Check if data loaded successfully
+-- ====================================================
+SELECT 'customers'   AS tbl, COUNT(*) AS row_count FROM customers
+UNION ALL
+SELECT 'products'    AS tbl, COUNT(*) AS row_count FROM products
+UNION ALL
+SELECT 'locations'   AS tbl, COUNT(*) AS row_count FROM locations
+UNION ALL
+SELECT 'orders'      AS tbl, COUNT(*) AS row_count FROM orders
+UNION ALL
+SELECT 'order_items' AS tbl, COUNT(*) AS row_count FROM order_items;
+
+SELECT * FROM customers;
