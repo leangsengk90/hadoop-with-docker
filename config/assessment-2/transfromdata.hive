@@ -8,7 +8,9 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
 STORED AS TEXTFILE
 TBLPROPERTIES ("skip.header.line.count"="1");
 
-LOAD DATA INPATH 'hdfs://namenode:9000/data/customers.csv' INTO TABLE customers;
+LOAD DATA INPATH 'hdfs://namenode:9000/data/hive/customers.csv' INTO TABLE customers;
+-- DESCRIBE FORMATTED customers;
+-- Path: /opt/hive/data/warehouse/customers
 
 
 -- 2. PRODUCTS TABLE
@@ -22,8 +24,9 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
 STORED AS TEXTFILE
 TBLPROPERTIES ("skip.header.line.count"="1");
 
-LOAD DATA INPATH 'hdfs://namenode:9000/data/products.csv' INTO TABLE products;
-
+LOAD DATA INPATH 'hdfs://namenode:9000/data/hive/products.csv' INTO TABLE products;
+-- DESCRIBE FORMATTED products;
+-- Path: /opt/hive/data/warehouse/products
 
 -- 3. LOCATIONS TABLE
 CREATE TABLE IF NOT EXISTS locations (
@@ -37,8 +40,9 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
 STORED AS TEXTFILE
 TBLPROPERTIES ("skip.header.line.count"="1");
 
-LOAD DATA INPATH 'hdfs://namenode:9000/data/locations.csv' INTO TABLE locations;
-
+LOAD DATA INPATH 'hdfs://namenode:9000/data/hive/locations.csv' INTO TABLE locations;
+-- DESCRIBE FORMATTED locations;
+-- Path: /opt/hive/data/warehouse/locations
 
 -- 4. ORDERS TABLE
 CREATE TABLE IF NOT EXISTS orders (
@@ -53,8 +57,9 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
 STORED AS TEXTFILE
 TBLPROPERTIES ("skip.header.line.count"="1");
 
-LOAD DATA INPATH 'hdfs://namenode:9000/data/orders.csv' INTO TABLE orders;
-
+LOAD DATA INPATH 'hdfs://namenode:9000/data/hive/orders.csv' INTO TABLE orders;
+-- DESCRIBE FORMATTED orders;
+-- Path: /opt/hive/data/warehouse/orders
 
 -- 5. ORDER_ITEMS TABLE
 CREATE TABLE IF NOT EXISTS order_items (
@@ -70,7 +75,9 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
 STORED AS TEXTFILE
 TBLPROPERTIES ("skip.header.line.count"="1");
 
-LOAD DATA INPATH 'hdfs://namenode:9000/data/order_items.csv' INTO TABLE order_items;
+LOAD DATA INPATH 'hdfs://namenode:9000/data/hive/order_items.csv' INTO TABLE order_items;
+-- DESCRIBE FORMATTED order_items;
+-- Path: /opt/hive/data/warehouse/order_items
 
 -- ====================================================
 -- VERIFICATION: Check if data loaded successfully
